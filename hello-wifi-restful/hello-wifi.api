@@ -1,0 +1,9 @@
+syntax = "v1"
+
+info(
+    title: "Hello WiFi API"
+    desc: "This API provides endpoints to manage WiFi configurations. base OpenWrt"
+    author: "llmons"
+    email: "llmons@foxmail.com"
+    version: "1.0.0"
+)
