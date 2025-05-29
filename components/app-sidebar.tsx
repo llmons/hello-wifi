@@ -23,44 +23,40 @@ export function AppSidebar({ user }: { user: User | undefined }) {
   const { setOpenMobile } = useSidebar();
 
   return (
-    <Sidebar className="group-data-[side=left]:border-r-0">
+    <Sidebar className='group-data-[side=left]:border-r-0'>
       <SidebarHeader>
         <SidebarMenu>
-          <div className="flex flex-row justify-between items-center">
+          <div className='flex flex-row justify-between items-center'>
             <Link
-              href="/"
+              href='/'
               onClick={() => {
                 setOpenMobile(false);
               }}
-              className="flex flex-row gap-3 items-center"
-            >
-              <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
-                Chatbot
+              className='flex flex-row gap-3 items-center'>
+              <span className='text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer'>
+                Hello WiFi 后台管理
               </span>
             </Link>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  variant="ghost"
-                  type="button"
-                  className="p-2 h-fit"
+                  variant='ghost'
+                  type='button'
+                  className='p-2 h-fit'
                   onClick={() => {
                     setOpenMobile(false);
                     router.push('/');
                     router.refresh();
-                  }}
-                >
+                  }}>
                   <PlusIcon />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent align="end">New Chat</TooltipContent>
+              <TooltipContent align='end'>New Chat</TooltipContent>
             </Tooltip>
           </div>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarHistory user={user} />
-      </SidebarContent>
+      <SidebarContent>{/* <SidebarHistory user={user} /> */}</SidebarContent>
       <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>
     </Sidebar>
   );
