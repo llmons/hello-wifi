@@ -19,7 +19,7 @@ declare module 'next-auth' {
 
     interface User {
         id?: string;
-        email?: string | null;
+        username?: string | null;
         type: UserType;
     }
 }
@@ -41,13 +41,13 @@ export const {
     providers: [
         Credentials({
             credentials: {},
-            async authorize({email, password}: any) {
-                if (email === "123admin@abc.com" && password === "123456") {
-                    return {id: '123admin', email, password, type: 'regular'};
+            async authorize({username, password}: any) {
+                if (username === "123admin" && password === "123456") {
+                    return {id: '123admin', username, password, type: 'regular'};
                 }
                 return null
 
-                // const users = await getUser(email);
+                // const users = await getUser(username);
                 //
                 // if (users.length === 0) {
                 //   await compare(password, DUMMY_PASSWORD);

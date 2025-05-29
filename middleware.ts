@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    if (pathname.startsWith('/login')) {
+    if(pathname==="/login"){
         return NextResponse.next();
     }
 
@@ -32,13 +32,11 @@ export async function middleware(request: NextRequest) {
 
         return NextResponse.redirect(
             // new URL(`/api/auth/guest?redirectUrl=${redirectUrl}`, request.url),
-            new URL(`/login?redirectUrl=${redirectUrl}`, request.url),
+            new URL(`/login?redirectUrl=${redirectUrl}`, request.url)
         );
     }
 
-    const isGuest = guestRegex.test(token?.email ?? '');
-
-    if (token && !isGuest && pathname === "/login") {
+    if (token && pathname === "/login") {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
