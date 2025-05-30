@@ -38,6 +38,8 @@ import { after } from 'next/server';
 import type { Chat } from '@/lib/db/schema';
 import { differenceInSeconds } from 'date-fns';
 import { ChatSDKError } from '@/lib/errors';
+import { getHostapdConf } from '@/lib/ai/tools/get-hostapd-conf';
+import { updateHostapdConf } from '@/lib/ai/tools/update-hostapd-conf';
 
 export const maxDuration = 60;
 
@@ -74,8 +76,8 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { id, message, selectedChatModel, selectedVisibilityType } =
-      requestBody;
+    const { id, message, selectedVisibilityType } = requestBody;
+    let selectedChatModel = 'chat-model'; // Default chat model
 
     const session = await auth();
 
@@ -158,25 +160,17 @@ export async function POST(request: Request) {
           system: systemPrompt({ selectedChatModel, requestHints }),
           messages,
           maxSteps: 5,
-          experimental_activeTools:
-            selectedChatModel === 'chat-model-reasoning'
-              ? []
-              : [
-                  'getWeather',
-                  'createDocument',
-                  'updateDocument',
-                  'requestSuggestions',
-                ],
+          experimental_activeTools: [
+            'getWeather',
+            'getHostapdConf',
+            'updateHostapdConf',
+          ],
           experimental_transform: smoothStream({ chunking: 'word' }),
           experimental_generateMessageId: generateUUID,
           tools: {
             getWeather,
-            createDocument: createDocument({ session, dataStream }),
-            updateDocument: updateDocument({ session, dataStream }),
-            requestSuggestions: requestSuggestions({
-              session,
-              dataStream,
-            }),
+            getHostapdConf,
+            updateHostapdConf,
           },
           onFinish: async ({ response }) => {
             if (session.user?.id) {

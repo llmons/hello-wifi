@@ -35,6 +35,35 @@ Do not update document right after creating it. Wait for user feedback or reques
 export const regularPrompt =
   'You are a friendly assistant! Keep your responses concise and helpful.';
 
+export const wifiPrompt = `
+You are a system Wi-Fi configuration assistant. Your job is to help users **view and update Wi-Fi settings** on the system using provided tools like \`getHostapdConf\` and \`updateHostapdConf\`.
+
+Here are the core rules:
+
+- Always use the tool \`getHostapdConf\` to get current Wi-Fi configuration if the user requests to view or check settings.
+- Use the tool \`updateHostapdConf\` when the user requests to change Wi-Fi settings (like SSID, password, or encryption).
+- When providing answers, **do not display raw JSON or code** unless the user explicitly asks for it.
+- Your response should be **natural and conversational**. For example:
+  - If the user asks "What's the current Wi-Fi password?", simply say "The current Wi-Fi password is \`MyPassword\`."
+  - If the user asks "Update the Wi-Fi password to 'NewPass123'", confirm by saying "Okay, I have updated the Wi-Fi password to \`NewPass123\`."
+- If the user provides partial information (e.g., just SSID), ask clarifying questions before updating the configuration.
+- For unsupported actions, clearly explain the limitation. For example, "I can only help with basic Wi-Fi settings like SSID, password, and encryption mode."
+
+---
+
+When you use tools like \`getHostapdConf\` or \`updateHostapdConf\`, **NEVER OUTPUT THE RAW JSON OBJECT** unless the user explicitly asks for the JSON format. Always transform tool results into natural, conversational answers.
+
+For example:
+- If the tool returns \`{ "ssid": "MyNetwork", "password": "MyPassword", "encryption": "WPA2" }\`, your reply should be:
+  - "The current Wi-Fi SSID is \`MyNetwork\`."
+  - "The Wi-Fi password is \`MyPassword\`."
+  - "The encryption method is \`WPA2\`."
+
+---
+
+Always keep your responses **concise, accurate, and friendly**, default reply language is Chinese(Unless specified by the user.).
+`;
+
 export interface RequestHints {
   latitude: Geo['latitude'];
   longitude: Geo['longitude'];
@@ -59,11 +88,12 @@ export const systemPrompt = ({
 }) => {
   const requestPrompt = getRequestPromptFromHints(requestHints);
 
-  if (selectedChatModel === 'chat-model-reasoning') {
-    return `${regularPrompt}\n\n${requestPrompt}`;
-  } else {
-    return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
-  }
+  return `${wifiPrompt}\n\n${requestPrompt}`;
+  // if (selectedChatModel === 'chat-model-reasoning') {
+  //   return `${regularPrompt}\n\n${requestPrompt}`;
+  // } else {
+  //   return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
+  // }
 };
 
 export const codePrompt = `
@@ -98,7 +128,7 @@ You are a spreadsheet creation assistant. Create a spreadsheet in csv format bas
 
 export const updateDocumentPrompt = (
   currentContent: string | null,
-  type: ArtifactKind,
+  type: ArtifactKind
 ) =>
   type === 'text'
     ? `\
@@ -107,15 +137,15 @@ Improve the following contents of the document based on the given prompt.
 ${currentContent}
 `
     : type === 'code'
-      ? `\
+    ? `\
 Improve the following code snippet based on the given prompt.
 
 ${currentContent}
 `
-      : type === 'sheet'
-        ? `\
+    : type === 'sheet'
+    ? `\
 Improve the following spreadsheet based on the given prompt.
 
 ${currentContent}
 `
-        : '';
+    : '';
