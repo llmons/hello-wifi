@@ -69,7 +69,9 @@ function PureMultimodalInput({
   const adjustHeight = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
+      textareaRef.current.style.height = `${
+        textareaRef.current.scrollHeight + 2
+      }px`;
     }
   };
 
@@ -82,7 +84,7 @@ function PureMultimodalInput({
 
   const [localStorageInput, setLocalStorageInput] = useLocalStorage(
     'input',
-    '',
+    ''
   );
 
   useEffect(() => {
@@ -169,7 +171,7 @@ function PureMultimodalInput({
         const uploadPromises = files.map((file) => uploadFile(file));
         const uploadedAttachments = await Promise.all(uploadPromises);
         const successfullyUploadedAttachments = uploadedAttachments.filter(
-          (attachment) => attachment !== undefined,
+          (attachment) => attachment !== undefined
         );
 
         setAttachments((currentAttachments) => [
@@ -182,7 +184,7 @@ function PureMultimodalInput({
         setUploadQueue([]);
       }
     },
-    [setAttachments],
+    [setAttachments]
   );
 
   const { isAtBottom, scrollToBottom } = useScrollToBottom();
@@ -194,7 +196,7 @@ function PureMultimodalInput({
   }, [status, scrollToBottom]);
 
   return (
-    <div className="relative w-full flex flex-col gap-4">
+    <div className='relative w-full flex flex-col gap-4'>
       <AnimatePresence>
         {!isAtBottom && (
           <motion.div
@@ -202,18 +204,16 @@ function PureMultimodalInput({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="absolute left-1/2 bottom-28 -translate-x-1/2 z-50"
-          >
+            className='absolute left-1/2 bottom-28 -translate-x-1/2 z-50'>
             <Button
-              data-testid="scroll-to-bottom-button"
-              className="rounded-full"
-              size="icon"
-              variant="outline"
+              data-testid='scroll-to-bottom-button'
+              className='rounded-full'
+              size='icon'
+              variant='outline'
               onClick={(event) => {
                 event.preventDefault();
                 scrollToBottom();
-              }}
-            >
+              }}>
               <ArrowDown />
             </Button>
           </motion.div>
@@ -231,8 +231,8 @@ function PureMultimodalInput({
         )}
 
       <input
-        type="file"
-        className="fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none"
+        type='file'
+        className='fixed -top-4 -left-4 size-0.5 opacity-0 pointer-events-none'
         ref={fileInputRef}
         multiple
         onChange={handleFileChange}
@@ -241,9 +241,8 @@ function PureMultimodalInput({
 
       {(attachments.length > 0 || uploadQueue.length > 0) && (
         <div
-          data-testid="attachments-preview"
-          className="flex flex-row gap-2 overflow-x-scroll items-end"
-        >
+          data-testid='attachments-preview'
+          className='flex flex-row gap-2 overflow-x-scroll items-end'>
           {attachments.map((attachment) => (
             <PreviewAttachment key={attachment.url} attachment={attachment} />
           ))}
@@ -263,14 +262,14 @@ function PureMultimodalInput({
       )}
 
       <Textarea
-        data-testid="multimodal-input"
+        data-testid='multimodal-input'
         ref={textareaRef}
-        placeholder="Send a message..."
+        placeholder='请输入指令......'
         value={input}
         onChange={handleInput}
         className={cx(
           'min-h-[24px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base bg-muted pb-10 dark:border-zinc-700',
-          className,
+          className
         )}
         rows={2}
         autoFocus
@@ -291,11 +290,11 @@ function PureMultimodalInput({
         }}
       />
 
-      <div className="absolute bottom-0 p-2 w-fit flex flex-row justify-start">
+      {/* <div className='absolute bottom-0 p-2 w-fit flex flex-row justify-start'>
         <AttachmentsButton fileInputRef={fileInputRef} status={status} />
-      </div>
+      </div> */}
 
-      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
+      <div className='absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end'>
         {status === 'submitted' ? (
           <StopButton stop={stop} setMessages={setMessages} />
         ) : (
@@ -320,7 +319,7 @@ export const MultimodalInput = memo(
       return false;
 
     return true;
-  },
+  }
 );
 
 function PureAttachmentsButton({
@@ -332,15 +331,14 @@ function PureAttachmentsButton({
 }) {
   return (
     <Button
-      data-testid="attachments-button"
-      className="rounded-md rounded-bl-lg p-[7px] h-fit dark:border-zinc-700 hover:dark:bg-zinc-900 hover:bg-zinc-200"
+      data-testid='attachments-button'
+      className='rounded-md rounded-bl-lg p-[7px] h-fit dark:border-zinc-700 hover:dark:bg-zinc-900 hover:bg-zinc-200'
       onClick={(event) => {
         event.preventDefault();
         fileInputRef.current?.click();
       }}
       disabled={status !== 'ready'}
-      variant="ghost"
-    >
+      variant='ghost'>
       <PaperclipIcon size={14} />
     </Button>
   );
@@ -357,14 +355,13 @@ function PureStopButton({
 }) {
   return (
     <Button
-      data-testid="stop-button"
-      className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
+      data-testid='stop-button'
+      className='rounded-full p-1.5 h-fit border dark:border-zinc-600'
       onClick={(event) => {
         event.preventDefault();
         stop();
         setMessages((messages) => messages);
-      }}
-    >
+      }}>
       <StopIcon size={14} />
     </Button>
   );
@@ -383,14 +380,13 @@ function PureSendButton({
 }) {
   return (
     <Button
-      data-testid="send-button"
-      className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
+      data-testid='send-button'
+      className='rounded-full p-1.5 h-fit border dark:border-zinc-600'
       onClick={(event) => {
         event.preventDefault();
         submitForm();
       }}
-      disabled={input.length === 0 || uploadQueue.length > 0}
-    >
+      disabled={input.length === 0 || uploadQueue.length > 0}>
       <ArrowUpIcon size={14} />
     </Button>
   );

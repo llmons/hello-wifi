@@ -19,6 +19,7 @@ import { MessageEditor } from './message-editor';
 import { DocumentPreview } from './document-preview';
 import { MessageReasoning } from './message-reasoning';
 import type { UseChatHelpers } from '@ai-sdk/react';
+import { Qwen } from '@lobehub/icons';
 
 const PurePreviewMessage = ({
   chatId,
@@ -60,7 +61,8 @@ const PurePreviewMessage = ({
           {message.role === 'assistant' && (
             <div className='size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background'>
               <div className='translate-y-px'>
-                <SparklesIcon size={14} />
+                {/* <SparklesIcon size={14} /> */}
+                <Qwen.Color size={20} />
               </div>
             </div>
           )}
@@ -101,7 +103,7 @@ const PurePreviewMessage = ({
                 if (mode === 'view') {
                   return (
                     <div key={key} className='flex flex-row gap-2 items-start'>
-                      {message.role === 'user' && !isReadonly && (
+                      {/* {message.role === 'user' && !isReadonly && (
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Button
@@ -116,7 +118,7 @@ const PurePreviewMessage = ({
                           </TooltipTrigger>
                           <TooltipContent>Edit message</TooltipContent>
                         </Tooltip>
-                      )}
+                      )} */}
 
                       <div
                         data-testid='message-content'
@@ -262,12 +264,13 @@ export const ThinkingMessage = () => {
           }
         )}>
         <div className='size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border'>
-          <SparklesIcon size={14} />
+          {/* <SparklesIcon size={14} /> */}
+          <Qwen.Color size={20} />
         </div>
 
         <div className='flex flex-col gap-2 w-full'>
           <div className='flex flex-col gap-4 text-muted-foreground'>
-            Hmm...
+            思考中...
           </div>
         </div>
       </div>
