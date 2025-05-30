@@ -1,18 +1,9 @@
 import { tool } from 'ai';
 import { z } from 'zod';
-import { updateWiFiConfig } from '@/lib/file/hostapd';
 
-export const updateHostapdConf = tool({
+export const updateWiFi = tool({
   description: `
-    Update the Wi-Fi AP settings, such as SSID and password.
-    Use this tool when the user wants to change the Wi-Fi name, password, or related settings.
-    The tool will safely apply the changes and return the updated configuration.
-    Example usage:
-    User: 请把Wi-Fi热点的名字改成MySSID1。
-    AI: (should call updateHostapdConf with ssid)
-    User: 请把Wi-Fi热点的密码改成MyPassword1。
-    AI: (should call updateHostapdConf with wpa_passphrase)
-  `,
+    Use this tool when the user wants to change the Wi-Fi name, password, or related settings.`,
   parameters: z.object({
     ssid: z
       .string()
@@ -29,10 +20,12 @@ export const updateHostapdConf = tool({
       ...(wpa_passphrase ? { wpa_passphrase } : {}),
     };
 
-    console.log('Updating Wi-Fi configuration":', config);
+    console.log('Updating Wi-Fi configuration:', config);
 
     try {
-      await updateWiFiConfig(config);
+      // Simulate updating Wi-Fi configuration
+      // In a real application, you would call a function to update the Wi-Fi settings
+      // await updateWiFiConfig(config);
 
       return {
         hostapdConfig: config,

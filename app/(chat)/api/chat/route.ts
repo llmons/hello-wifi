@@ -40,6 +40,7 @@ import { differenceInSeconds } from 'date-fns';
 import { ChatSDKError } from '@/lib/errors';
 import { getHostapdConf } from '@/lib/ai/tools/get-hostapd-conf';
 import { updateHostapdConf } from '@/lib/ai/tools/update-hostapd-conf';
+import { updateWiFi } from '@/lib/ai/tools/update-wifi';
 
 export const maxDuration = 60;
 
@@ -164,6 +165,7 @@ export async function POST(request: Request) {
             'getWeather',
             'getHostapdConf',
             'updateHostapdConf',
+            'updateDocument',
           ],
           experimental_transform: smoothStream({ chunking: 'word' }),
           experimental_generateMessageId: generateUUID,
@@ -171,6 +173,10 @@ export async function POST(request: Request) {
             getWeather,
             getHostapdConf,
             updateHostapdConf,
+            updateDocument: updateDocument({
+              session,
+              dataStream,
+            }),
           },
           onFinish: async ({ response }) => {
             if (session.user?.id) {
