@@ -21,9 +21,6 @@ import {
 */
 import { generateUUID, getTrailingMessageId } from '@/lib/utils';
 import { generateTitleFromUserMessage } from '../../actions';
-import { createDocument } from '@/lib/ai/tools/create-document';
-import { updateDocument } from '@/lib/ai/tools/update-document';
-import { requestSuggestions } from '@/lib/ai/tools/request-suggestions';
 import { getWeather } from '@/lib/ai/tools/get-weather';
 import { isProductionEnvironment } from '@/lib/constants';
 import { myProvider } from '@/lib/ai/providers';
@@ -40,7 +37,6 @@ import { differenceInSeconds } from 'date-fns';
 import { ChatSDKError } from '@/lib/errors';
 import { getHostapdConf } from '@/lib/ai/tools/get-hostapd-conf';
 import { updateHostapdConf } from '@/lib/ai/tools/update-hostapd-conf';
-import { updateWiFi } from '@/lib/ai/tools/update-wifi';
 
 export const maxDuration = 60;
 
@@ -165,7 +161,6 @@ export async function POST(request: Request) {
             'getWeather',
             'getHostapdConf',
             'updateHostapdConf',
-            'updateDocument',
           ],
           experimental_transform: smoothStream({ chunking: 'word' }),
           experimental_generateMessageId: generateUUID,
@@ -173,10 +168,6 @@ export async function POST(request: Request) {
             getWeather,
             getHostapdConf,
             updateHostapdConf,
-            updateDocument: updateDocument({
-              session,
-              dataStream,
-            }),
           },
           onFinish: async ({ response }) => {
             if (session.user?.id) {

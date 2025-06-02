@@ -1,48 +1,75 @@
 import { tool } from 'ai';
 import { z } from 'zod';
-import { updateWiFiConfig } from '@/lib/file/hostapd';
+import { updateHostapdFile } from '@/lib/file/hostapd';
 
 export const updateHostapdConf = tool({
   description: `
-    Update the Wi-Fi AP settings, such as SSID and password.
-    Use this tool when the user wants to change the Wi-Fi name, password, or related settings.
-    The tool will safely apply the changes and return the updated configuration.
-    Example usage:
-    User: 请把Wi-Fi热点的名字改成MySSID1。
-    AI: (should call updateHostapdConf with ssid)
-    User: 请把Wi-Fi热点的密码改成MyPassword1。
-    AI: (should call updateHostapdConf with wpa_passphrase)
+    Update the hostapd Wi-Fi AP configuration, including SSID, password, and other settings.
   `,
   parameters: z.object({
+    driver: z
+      .string()
+      .describe('The driver to use for the Wi-Fi interface (e.g., nl80211)')
+      .optional(),
+    ctrl_interface: z
+      .string()
+      .describe('Control interface path for hostapd')
+      .optional(),
+    ctrl_interface_group: z
+      .string()
+      .describe('Control interface group (e.g., 0)')
+      .optional(),
+    auth_algs: z
+      .string()
+      .describe('Authentication algorithms (e.g., 1)')
+      .optional(),
+    wpa_key_mgmt: z
+      .string()
+      .describe('WPA key management (e.g., WPA-PSK)')
+      .optional(),
+    beacon_int: z.string().describe('Beacon interval (e.g., 100)').optional(),
     ssid: z
       .string()
-      .describe('The new SSID (network name) of the Wi-Fi')
+      .describe('The SSID (network name) of the Wi-Fi')
+      .optional(),
+    channel: z.string().describe('The Wi-Fi channel (e.g., 1)').optional(),
+    hw_mode: z
+      .string()
+      .describe('Hardware mode (e.g., g for 2.4GHz)')
+      .optional(),
+    ieee80211n: z
+      .string()
+      .describe('Enable/disable 802.11n (0 or 1)')
       .optional(),
     wpa_passphrase: z
       .string()
-      .describe('The new WPA passphrase (password) for the Wi-Fi')
+      .describe('The WPA passphrase (password)')
       .optional(),
+    interface: z
+      .string()
+      .describe('The network interface name (e.g., wlan0)')
+      .optional(),
+    wpa: z.string().describe('WPA mode (e.g., 2)').optional(),
+    wpa_pairwise: z
+      .string()
+      .describe('WPA encryption algorithm (e.g., CCMP)')
+      .optional(),
+    country_code: z.string().describe('Country code (e.g., CN)').optional(),
+    ignore_broadcast_ssid: z.string().describe('Hide SSID (0 or 1)').optional(),
   }),
-  execute: async ({ ssid, wpa_passphrase }) => {
-    const config = {
-      ...(ssid ? { ssid } : {}),
-      ...(wpa_passphrase ? { wpa_passphrase } : {}),
-    };
-
-    console.log('Updating Wi-Fi configuration":', config);
-
+  execute: async (fields) => {
     try {
-      await updateWiFiConfig(config);
+      await updateHostapdFile(fields);
 
       return {
-        hostapdConfig: config,
+        hostapdConfig: fields,
         success: true,
         message: 'Wi-Fi configuration updated successfully.',
       };
     } catch (err) {
       console.error('Error updating Wi-Fi configuration:', err);
       return {
-        hostapdConfig: config,
+        hostapdConfig: fields,
         success: false,
         content: 'Failed to update Wi-Fi settings.',
       };
