@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import {PowerBy} from "@/components/power-by";
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
@@ -33,31 +34,34 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                 setOpenMobile(false);
               }}
               className='flex flex-row gap-3 items-center'>
-              <span className='text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer'>
-                Hello WiFi 后台管理
+              <span className='text-4xl font-semibold italic px-2 hover:bg-muted rounded-md cursor-pointer'>
+                Hello WiFi
               </span>
             </Link>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant='ghost'
-                  type='button'
-                  className='p-2 h-fit'
-                  onClick={() => {
-                    setOpenMobile(false);
-                    router.push('/');
-                    router.refresh();
-                  }}>
-                  <PlusIcon />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent align='end'>New Chat</TooltipContent>
-            </Tooltip>
+            {/*<Tooltip>*/}
+            {/*  <TooltipTrigger asChild>*/}
+            {/*    <Button*/}
+            {/*      variant='ghost'*/}
+            {/*      type='button'*/}
+            {/*      className='p-2 h-fit'*/}
+            {/*      onClick={() => {*/}
+            {/*        setOpenMobile(false);*/}
+            {/*        router.push('/');*/}
+            {/*        router.refresh();*/}
+            {/*      }}>*/}
+            {/*      <PlusIcon />*/}
+            {/*    </Button>*/}
+            {/*  </TooltipTrigger>*/}
+            {/*  <TooltipContent align='end'>New Chat</TooltipContent>*/}
+            {/*</Tooltip>*/}
           </div>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>{/* <SidebarHistory user={user} /> */}</SidebarContent>
-      <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>
+      {/*<SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>*/}
+      <SidebarFooter>
+        <PowerBy/>
+      </SidebarFooter>
     </Sidebar>
   );
 }
