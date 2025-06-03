@@ -7,21 +7,9 @@ import {
 } from 'ai';
 import { auth, type UserType } from '@/app/(auth)/auth';
 import { type RequestHints, systemPrompt } from '@/lib/ai/prompts';
-/* Database-related imports (commented out)
-import {
-  createStreamId,
-  deleteChatById,
-  getChatById,
-  getMessageCountByUserId,
-  getMessagesByChatId,
-  getStreamIdsByChatId,
-  saveChat,
-  saveMessages,
-} from '@/lib/db/queries';
-*/
+
 import { generateUUID, getTrailingMessageId } from '@/lib/utils';
 import { generateTitleFromUserMessage } from '../../actions';
-import { getWeather } from '@/lib/ai/tools/get-weather';
 import { isProductionEnvironment } from '@/lib/constants';
 import { myProvider } from '@/lib/ai/providers';
 import { entitlementsByUserType } from '@/lib/ai/entitlements';
@@ -84,41 +72,7 @@ export async function POST(request: Request) {
 
     const userType: UserType = session.user.type;
 
-    // Database operation (commented out)
-    // const messageCount = await getMessageCountByUserId({
-    //   id: session.user.id,
-    //   differenceInHours: 24,
-    // });
-
-    // if (messageCount > entitlementsByUserType[userType].maxMessagesPerDay) {
-    //   return new ChatSDKError('rate_limit:chat').toResponse();
-    // }
-
-    // Database operation (commented out)
-    // const chat = await getChatById({ id });
-
-    // if (!chat) {
-    //   const title = await generateTitleFromUserMessage({
-    //     message,
-    //   });
-
-    //   await saveChat({
-    //     id,
-    //     userId: session.user.id,
-    //     title,
-    //     visibility: selectedVisibilityType,
-    //   });
-    // } else {
-    //   if (chat.userId !== session.user.id) {
-    //     return new ChatSDKError('forbidden:chat').toResponse();
-    //   }
-    // }
-
-    // Database operation (commented out)
-    // const previousMessages = await getMessagesByChatId({ id });
-
     const messages = appendClientMessage({
-      // Using empty array since database operation is commented out
       messages: [],
       message,
     });
@@ -132,23 +86,7 @@ export async function POST(request: Request) {
       country,
     };
 
-    // Database operation (commented out)
-    // await saveMessages({
-    //   messages: [
-    //     {
-    //       chatId: id,
-    //       id: message.id,
-    //       role: 'user',
-    //       parts: message.parts,
-    //       attachments: message.experimental_attachments ?? [],
-    //       createdAt: new Date(),
-    //     },
-    //   ],
-    // });
-
     const streamId = generateUUID();
-    // Database operation (commented out)
-    // await createStreamId({ streamId, chatId: id });
 
     const stream = createDataStream({
       execute: (dataStream) => {
@@ -158,14 +96,12 @@ export async function POST(request: Request) {
           messages,
           maxSteps: 5,
           experimental_activeTools: [
-            'getWeather',
             'getHostapdConf',
             'updateHostapdConf',
           ],
           experimental_transform: smoothStream({ chunking: 'word' }),
           experimental_generateMessageId: generateUUID,
           tools: {
-            getWeather,
             getHostapdConf,
             updateHostapdConf,
           },
@@ -186,21 +122,6 @@ export async function POST(request: Request) {
                   messages: [message],
                   responseMessages: response.messages,
                 });
-
-                // Database operation (commented out)
-                // await saveMessages({
-                //   messages: [
-                //     {
-                //       id: assistantId,
-                //       chatId: id,
-                //       role: assistantMessage.role,
-                //       parts: assistantMessage.parts,
-                //       attachments:
-                //         assistantMessage.experimental_attachments ?? [],
-                //       createdAt: new Date(),
-                //     },
-                //   ],
-                // });
               } catch (_) {
                 console.error('Failed to save chat');
               }
@@ -237,107 +158,6 @@ export async function POST(request: Request) {
       return error.toResponse();
     }
   }
-}
-
-export async function GET(request: Request) {
-  const streamContext = getStreamContext();
-  const resumeRequestedAt = new Date();
-
-  if (!streamContext) {
-    return new Response(null, { status: 204 });
-  }
-
-  const { searchParams } = new URL(request.url);
-  const chatId = searchParams.get('chatId');
-
-  if (!chatId) {
-    return new ChatSDKError('bad_request:api').toResponse();
-  }
-
-  const session = await auth();
-
-  if (!session?.user) {
-    return new ChatSDKError('unauthorized:chat').toResponse();
-  }
-
-  // Database operation (commented out)
-  // let chat: Chat;
-
-  // try {
-  //   chat = await getChatById({ id: chatId });
-  // } catch {
-  //   return new ChatSDKError('not_found:chat').toResponse();
-  // }
-
-  // if (!chat) {
-  //   return new ChatSDKError('not_found:chat').toResponse();
-  // }
-
-  // if (chat.visibility === 'private' && chat.userId !== session.user.id) {
-  //   return new ChatSDKError('forbidden:chat').toResponse();
-  // }
-
-  // Database operation (commented out)
-  // const streamIds = await getStreamIdsByChatId({ chatId });
-
-  // if (!streamIds.length) {
-  //   return new ChatSDKError('not_found:stream').toResponse();
-  // }
-
-  // Use a dummy value since database operation is commented out
-  const recentStreamId = generateUUID();
-
-  // if (!recentStreamId) {
-  //   return new ChatSDKError('not_found:stream').toResponse();
-  // }
-
-  const emptyDataStream = createDataStream({
-    execute: () => {},
-  });
-
-  const stream = await streamContext.resumableStream(
-    recentStreamId,
-    () => emptyDataStream
-  );
-
-  /*
-   * For when the generation is streaming during SSR
-   * but the resumable stream has concluded at this point.
-   */
-  if (!stream) {
-    // Database operation (commented out)
-    // const messages = await getMessagesByChatId({ id: chatId });
-    // const mostRecentMessage = messages.at(-1);
-
-    // if (!mostRecentMessage) {
-    //   return new Response(emptyDataStream, { status: 200 });
-    // }
-
-    // if (mostRecentMessage.role !== 'assistant') {
-    //   return new Response(emptyDataStream, { status: 200 });
-    // }
-
-    // const messageCreatedAt = new Date(mostRecentMessage.createdAt);
-
-    // if (differenceInSeconds(resumeRequestedAt, messageCreatedAt) > 15) {
-    //   return new Response(emptyDataStream, { status: 200 });
-    // }
-
-    // const restoredStream = createDataStream({
-    //   execute: (buffer) => {
-    //     buffer.writeData({
-    //       type: 'append-message',
-    //       message: JSON.stringify(mostRecentMessage),
-    //     });
-    //   },
-    // });
-
-    // return new Response(restoredStream, { status: 200 });
-
-    return new Response(emptyDataStream, { status: 200 });
-  }
-
-  return new Response(stream, { status: 200 });
 }
 
 export async function DELETE(request: Request) {
