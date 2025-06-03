@@ -61,7 +61,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { id, message, selectedVisibilityType } = requestBody;
+    const { id, message } = requestBody;
     let selectedChatModel = 'chat-model'; // Default chat model
 
     const session = await auth();
