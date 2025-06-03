@@ -39,6 +39,7 @@ export const wifiPrompt = `
 你是一个系统 Wi-Fi 配置助手，帮助用户查看和修改系统 Wi-Fi 设置。
 ⸻
 默认回复语言为中文（除非用户另有要求）。
+展示密码等信息时请使用普通文本格式，不要使用代码块、预格式化文本或内联代码标记。
 `;
 
 export interface RequestHints {
