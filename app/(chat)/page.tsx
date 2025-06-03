@@ -11,7 +11,8 @@ export default async function Page() {
   const session = await auth();
 
   if (!session) {
-    redirect('/api/auth/guest');
+    // redirect('/api/auth/guest');
+    redirect('/login');
   }
 
   const id = generateUUID();
@@ -27,7 +28,7 @@ export default async function Page() {
           id={id}
           initialMessages={[]}
           initialChatModel={DEFAULT_CHAT_MODEL}
-          initialVisibilityType="private"
+          initialVisibilityType='private'
           isReadonly={false}
           session={session}
           autoResume={false}
@@ -44,7 +45,7 @@ export default async function Page() {
         id={id}
         initialMessages={[]}
         initialChatModel={modelIdFromCookie.value}
-        initialVisibilityType="private"
+        initialVisibilityType='private'
         isReadonly={false}
         session={session}
         autoResume={false}

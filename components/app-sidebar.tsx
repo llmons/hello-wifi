@@ -17,7 +17,9 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import {PowerBy} from "@/components/power-by";
+import { PowerBy } from '@/components/power-by';
+import { signOut } from 'next-auth/react';
+import { Separator } from './ui/separator';
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
@@ -58,9 +60,19 @@ export function AppSidebar({ user }: { user: User | undefined }) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>{/* <SidebarHistory user={user} /> */}</SidebarContent>
-      {/*<SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>*/}
+      {/* <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter> */}
       <SidebarFooter>
-        <PowerBy/>
+        <PowerBy />
+        <Separator className='my-2' />
+        <Button
+          variant='outline'
+          onClick={() => {
+            signOut({
+              redirectTo: '/',
+            });
+          }}>
+          退出登录
+        </Button>
       </SidebarFooter>
     </Sidebar>
   );

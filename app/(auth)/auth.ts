@@ -6,7 +6,8 @@ import { authConfig } from './auth.config';
 import { DUMMY_PASSWORD } from '@/lib/constants';
 import type { DefaultJWT } from 'next-auth/jwt';
 
-export type UserType = 'guest' | 'regular';
+// export type UserType = 'guest' | 'regular';
+export type UserType = 'regular';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
@@ -18,7 +19,8 @@ declare module 'next-auth' {
 
   interface User {
     id?: string;
-    email?: string | null;
+    // email?: string | null;
+    username?: string | null;
     type: UserType;
   }
 }
@@ -40,36 +42,42 @@ export const {
   providers: [
     Credentials({
       credentials: {},
-      async authorize({ email, password }: any) {
-        const users = await getUser(email);
-
-        if (users.length === 0) {
-          await compare(password, DUMMY_PASSWORD);
-          return null;
+      async authorize({ username, password }: any) {
+        console.log('Authorize called with:', { username, password });
+        if (username === 'admin' && password === 'admin') {
+          return { id: 'admin', username: 'admin', type: 'regular' };
         }
+        return null;
 
-        const [user] = users;
+        // const users = await getUser(email);
 
-        if (!user.password) {
-          await compare(password, DUMMY_PASSWORD);
-          return null;
-        }
+        // if (users.length === 0) {
+        //   await compare(password, DUMMY_PASSWORD);
+        //   return null;
+        // }
 
-        const passwordsMatch = await compare(password, user.password);
+        // const [user] = users;
 
-        if (!passwordsMatch) return null;
+        // if (!user.password) {
+        //   await compare(password, DUMMY_PASSWORD);
+        //   return null;
+        // }
 
-        return { ...user, type: 'regular' };
+        // const passwordsMatch = await compare(password, user.password);
+
+        // if (!passwordsMatch) return null;
+
+        // return { ...user, type: 'regular' };
       },
     }),
-    Credentials({
-      id: 'guest',
-      credentials: {},
-      async authorize() {
-        const [guestUser] = await createGuestUser();
-        return { ...guestUser, type: 'guest' };
-      },
-    }),
+    // Credentials({
+    //   id: 'guest',
+    //   credentials: {},
+    //   async authorize() {
+    //     const [guestUser] = await createGuestUser();
+    //     return { ...guestUser, type: 'guest' };
+    //   },
+    // }),
   ],
   callbacks: {
     async jwt({ token, user }) {
