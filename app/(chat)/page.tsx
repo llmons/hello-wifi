@@ -3,7 +3,6 @@ import { cookies } from 'next/headers';
 import { Chat } from '@/components/chat';
 import { DEFAULT_CHAT_MODEL } from '@/lib/ai/models';
 import { generateUUID } from '@/lib/utils';
-// import { DataStreamHandler } from '@/components/data-stream-handler';
 import { auth } from '../(auth)/auth';
 import { redirect } from 'next/navigation';
 
@@ -11,7 +10,6 @@ export default async function Page() {
   const session = await auth();
 
   if (!session) {
-    // redirect('/api/auth/guest');
     redirect('/login');
   }
 
@@ -29,10 +27,8 @@ export default async function Page() {
           initialMessages={[]}
           initialChatModel={DEFAULT_CHAT_MODEL}
           isReadonly={false}
-          session={session}
           autoResume={false}
         />
-        {/* <DataStreamHandler id={id} /> */}
       </>
     );
   }
@@ -45,10 +41,8 @@ export default async function Page() {
         initialMessages={[]}
         initialChatModel={modelIdFromCookie.value}
         isReadonly={false}
-        session={session}
         autoResume={false}
       />
-      {/* <DataStreamHandler id={id} /> */}
     </>
   );
 }

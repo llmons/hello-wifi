@@ -4,30 +4,16 @@ import type { UIMessage } from 'ai';
 import cx from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import { memo } from 'react';
-import type { Vote } from '@/lib/db/schema';
 import { Markdown } from './markdown';
 import equal from 'fast-deep-equal';
 import { cn, sanitizeText } from '@/lib/utils';
-import type { UseChatHelpers } from '@ai-sdk/react';
 import { Qwen } from '@lobehub/icons';
 
 const PurePreviewMessage = ({
-  chatId,
   message,
-  vote,
-  isLoading,
-  setMessages,
-  reload,
-  isReadonly,
   requiresScrollPadding,
 }: {
-  chatId: string;
   message: UIMessage;
-  vote: Vote | undefined;
-  isLoading: boolean;
-  setMessages: UseChatHelpers['setMessages'];
-  reload: UseChatHelpers['reload'];
-  isReadonly: boolean;
   requiresScrollPadding: boolean;
 }) => {
   return (
@@ -83,12 +69,10 @@ const PurePreviewMessage = ({
 export const PreviewMessage = memo(
   PurePreviewMessage,
   (prevProps, nextProps) => {
-    if (prevProps.isLoading !== nextProps.isLoading) return false;
     if (prevProps.message.id !== nextProps.message.id) return false;
     if (prevProps.requiresScrollPadding !== nextProps.requiresScrollPadding)
       return false;
     if (!equal(prevProps.message.parts, nextProps.message.parts)) return false;
-    if (!equal(prevProps.vote, nextProps.vote)) return false;
 
     return true;
   }

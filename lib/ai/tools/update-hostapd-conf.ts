@@ -5,6 +5,15 @@ import { updateHostapdFile } from '@/lib/file/hostapd';
 export const updateHostapdConf = tool({
   description: `
     Update the hostapd Wi-Fi AP configuration, including SSID, password, and other settings.
+    Only update the fields (e.g., SSID, password) that the user explicitly mentions.
+    Do NOT change any field unless the user has requested its modification.
+
+    For example:
+    - If the user says "change Wi-Fi name to XXX", only change the SSID.
+    - If the user says "change password to YYY", only update the password.
+    - If the user gives both, then update both.
+
+    Avoid applying defaults or resetting unspecified values.
   `,
   parameters: z.object({
     driver: z
