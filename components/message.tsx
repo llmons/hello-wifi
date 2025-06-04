@@ -9,7 +9,6 @@ import { Markdown } from './markdown';
 import { PreviewAttachment } from './preview-attachment';
 import equal from 'fast-deep-equal';
 import { cn, sanitizeText } from '@/lib/utils';
-// import { MessageReasoning } from './message-reasoning';
 import type { UseChatHelpers } from '@ai-sdk/react';
 import { Qwen } from '@lobehub/icons';
 
@@ -32,8 +31,6 @@ const PurePreviewMessage = ({
   isReadonly: boolean;
   requiresScrollPadding: boolean;
 }) => {
-  const [mode, setMode] = useState<'view' | 'edit'>('view');
-
   return (
     <AnimatePresence>
       <motion.div
@@ -45,15 +42,11 @@ const PurePreviewMessage = ({
         <div
           className={cn(
             'flex gap-4 w-full group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl',
-            {
-              'w-full': mode === 'edit',
-              'group-data-[role=user]/message:w-fit': mode !== 'edit',
-            }
+            'group-data-[role=user]/message:w-fit'
           )}>
           {message.role === 'assistant' && (
             <div className='size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background'>
               <div className='translate-y-px'>
-                {/* <SparklesIcon size={14} /> */}
                 <Qwen.Color size={20} />
               </div>
             </div>
@@ -80,32 +73,19 @@ const PurePreviewMessage = ({
             {message.parts?.map((part, index) => {
               const { type } = part;
               const key = `message-${message.id}-part-${index}`;
-
-              // if (type === 'reasoning') {
-              //   return (
-              //     <MessageReasoning
-              //       key={key}
-              //       isLoading={isLoading}
-              //       reasoning={part.reasoning}
-              //     />
-              //   );
-              // }
-
               if (type === 'text') {
-                if (mode === 'view') {
-                  return (
-                    <div key={key} className='flex flex-row gap-2 items-start'>
-                      <div
-                        data-testid='message-content'
-                        className={cn('flex flex-col gap-4', {
-                          'bg-primary text-primary-foreground px-3 py-2 rounded-xl':
-                            message.role === 'user',
-                        })}>
-                        <Markdown>{sanitizeText(part.text)}</Markdown>
-                      </div>
+                return (
+                  <div key={key} className='flex flex-row gap-2 items-start'>
+                    <div
+                      data-testid='message-content'
+                      className={cn('flex flex-col gap-4', {
+                        'bg-primary text-primary-foreground px-3 py-2 rounded-xl':
+                          message.role === 'user',
+                      })}>
+                      <Markdown>{sanitizeText(part.text)}</Markdown>
                     </div>
-                  );
-                }
+                  </div>
+                );
               }
             })}
           </div>

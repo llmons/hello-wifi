@@ -1,7 +1,7 @@
 'use client';
 
 import { memo } from 'react';
-import { ModeToggle } from './ModeToggle';
+import { ModeToggle } from './mode-toggle';
 
 function PureChatHeader({
   selectedModelId,
