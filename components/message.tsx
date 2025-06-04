@@ -3,10 +3,9 @@
 import type { UIMessage } from 'ai';
 import cx from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import type { Vote } from '@/lib/db/schema';
 import { Markdown } from './markdown';
-import { PreviewAttachment } from './preview-attachment';
 import equal from 'fast-deep-equal';
 import { cn, sanitizeText } from '@/lib/utils';
 import type { UseChatHelpers } from '@ai-sdk/react';
@@ -56,20 +55,6 @@ const PurePreviewMessage = ({
             className={cn('flex flex-col gap-4 w-full', {
               'min-h-96': message.role === 'assistant' && requiresScrollPadding,
             })}>
-            {message.experimental_attachments &&
-              message.experimental_attachments.length > 0 && (
-                <div
-                  data-testid={`message-attachments`}
-                  className='flex flex-row justify-end gap-2'>
-                  {message.experimental_attachments.map((attachment) => (
-                    <PreviewAttachment
-                      key={attachment.url}
-                      attachment={attachment}
-                    />
-                  ))}
-                </div>
-              )}
-
             {message.parts?.map((part, index) => {
               const { type } = part;
               const key = `message-${message.id}-part-${index}`;
@@ -127,7 +112,6 @@ export const ThinkingMessage = () => {
           }
         )}>
         <div className='size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border'>
-          {/* <SparklesIcon size={14} /> */}
           <Qwen.Color size={20} />
         </div>
 
