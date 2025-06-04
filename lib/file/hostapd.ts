@@ -28,10 +28,10 @@ export async function updateHostapdFile(
     ignore_broadcast_ssid: string;
   }>
 ) {
-  const filePath = '/tmp/hostapd.conf';
-  const content = await fs.readFile(filePath, 'utf-8');
+  // const filePath = '/tmp/hostapd.conf';
+  // const content = await fs.readFile(filePath, 'utf-8');
 
-  // const content = await fs.readFile(HOSTAPD_CONF_PATH, 'utf-8');
+  const content = await fs.readFile(HOSTAPD_CONF_PATH, 'utf-8');
   const lines = content.split('\n');
 
   const fieldOrder = [
@@ -80,13 +80,13 @@ export async function updateHostapdFile(
     }
   }
 
-  await fs.writeFile(filePath, updatedLines.join('\n'), 'utf-8');
+  // await fs.writeFile(filePath, updatedLines.join('\n'), 'utf-8');
 
-  // await fs.writeFile(TMP_CONF_PATH, updatedLines.join('\n'), 'utf-8');
-  // await execFileAsync('sudo', ['cp', HOSTAPD_CONF_PATH, BACKUP_CONF_PATH]);
-  // await execFileAsync('sudo', ['cp', TMP_CONF_PATH, HOSTAPD_CONF_PATH]);
-  // await execFileAsync('sudo', ['rm', TMP_CONF_PATH]);
-  // await execFileAsync('sudo', ['systemctl', 'restart', 'hostapd']);
+  await fs.writeFile(TMP_CONF_PATH, updatedLines.join('\n'), 'utf-8');
+  await execFileAsync('sudo', ['cp', HOSTAPD_CONF_PATH, BACKUP_CONF_PATH]);
+  await execFileAsync('sudo', ['cp', TMP_CONF_PATH, HOSTAPD_CONF_PATH]);
+  await execFileAsync('sudo', ['rm', TMP_CONF_PATH]);
+  await execFileAsync('sudo', ['systemctl', 'restart', 'hostapd']);
 }
 
 export interface HostapdConfig {
@@ -109,10 +109,10 @@ export interface HostapdConfig {
 }
 
 export async function getHostapdFile(): Promise<HostapdConfig> {
-  const filePath = '/tmp/hostapd.conf';
-  const content = await fs.readFile(filePath, 'utf-8');
+  // const filePath = '/tmp/hostapd.conf';
+  // const content = await fs.readFile(filePath, 'utf-8');
 
-  // const content = await fs.readFile(HOSTAPD_CONF_PATH, 'utf-8');
+  const content = await fs.readFile(HOSTAPD_CONF_PATH, 'utf-8');
   const lines = content.split('\n');
 
   const data: HostapdConfig = {};

@@ -20,7 +20,8 @@ export async function middleware(request: NextRequest) {
   const token = await getToken({
     req: request,
     secret: process.env.AUTH_SECRET,
-    secureCookie: !isDevelopmentEnvironment,
+    // secureCookie: !isDevelopmentEnvironment,
+    secureCookie: false, // true if use HTTPS in production
   });
 
   if (token && pathname === '/login') {
