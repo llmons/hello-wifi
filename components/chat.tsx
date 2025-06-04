@@ -7,7 +7,6 @@ import useSWR, { useSWRConfig } from 'swr';
 import { ChatHeader } from '@/components/chat-header';
 import type { Vote } from '@/lib/db/schema';
 import { fetchWithErrorHandlers, generateUUID } from '@/lib/utils';
-import { Artifact } from './artifact';
 import { MultimodalInput } from './multimodal-input';
 import { Messages } from './messages';
 import { useArtifactSelector } from '@/hooks/use-artifact';
@@ -32,7 +31,6 @@ export function Chat({
   session: Session;
   autoResume: boolean;
 }) {
-
   const {
     messages,
     setMessages,
@@ -103,9 +101,7 @@ export function Chat({
   return (
     <>
       <div className='flex flex-col min-w-0 h-dvh bg-background'>
-        <ChatHeader
-          selectedModelId={initialChatModel}
-        />
+        <ChatHeader selectedModelId={initialChatModel} />
 
         <Messages
           chatId={id}
@@ -136,23 +132,6 @@ export function Chat({
           )}
         </form>
       </div>
-
-      <Artifact
-        chatId={id}
-        input={input}
-        setInput={setInput}
-        handleSubmit={handleSubmit}
-        status={status}
-        stop={stop}
-        attachments={attachments}
-        setAttachments={setAttachments}
-        append={append}
-        messages={messages}
-        setMessages={setMessages}
-        reload={reload}
-        votes={votes}
-        isReadonly={isReadonly}
-      />
     </>
   );
 }

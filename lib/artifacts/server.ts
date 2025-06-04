@@ -5,7 +5,6 @@ import { textDocumentHandler } from '@/artifacts/text/server';
 import { ArtifactKind } from '@/components/artifact';
 import { DataStreamWriter } from 'ai';
 import { Document } from '../db/schema';
-import { saveDocument } from '../db/queries';
 import { Session } from 'next-auth';
 
 export interface SaveDocumentProps {
@@ -51,15 +50,15 @@ export function createDocumentHandler<T extends ArtifactKind>(config: {
         session: args.session,
       });
 
-      if (args.session?.user?.id) {
-        await saveDocument({
-          id: args.id,
-          title: args.title,
-          content: draftContent,
-          kind: config.kind,
-          userId: args.session.user.id,
-        });
-      }
+      // if (args.session?.user?.id) {
+      //   await saveDocument({
+      //     id: args.id,
+      //     title: args.title,
+      //     content: draftContent,
+      //     kind: config.kind,
+      //     userId: args.session.user.id,
+      //   });
+      // }
 
       return;
     },
@@ -71,15 +70,15 @@ export function createDocumentHandler<T extends ArtifactKind>(config: {
         session: args.session,
       });
 
-      if (args.session?.user?.id) {
-        await saveDocument({
-          id: args.document.id,
-          title: args.document.title,
-          content: draftContent,
-          kind: config.kind,
-          userId: args.session.user.id,
-        });
-      }
+      // if (args.session?.user?.id) {
+      //   await saveDocument({
+      //     id: args.document.id,
+      //     title: args.document.title,
+      //     content: draftContent,
+      //     kind: config.kind,
+      //     userId: args.session.user.id,
+      //   });
+      // }
 
       return;
     },

@@ -1,12 +1,8 @@
-import { compare } from 'bcrypt-ts';
 import NextAuth, { type DefaultSession } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { createGuestUser, getUser } from '@/lib/db/queries';
 import { authConfig } from './auth.config';
-import { DUMMY_PASSWORD } from '@/lib/constants';
 import type { DefaultJWT } from 'next-auth/jwt';
 
-// export type UserType = 'guest' | 'regular';
 export type UserType = 'regular';
 
 declare module 'next-auth' {
@@ -19,7 +15,6 @@ declare module 'next-auth' {
 
   interface User {
     id?: string;
-    // email?: string | null;
     username?: string | null;
     type: UserType;
   }
@@ -43,41 +38,12 @@ export const {
     Credentials({
       credentials: {},
       async authorize({ username, password }: any) {
-        console.log('Authorize called with:', { username, password });
         if (username === 'admin' && password === 'admin') {
           return { id: 'admin', username: 'admin', type: 'regular' };
         }
         return null;
-
-        // const users = await getUser(email);
-
-        // if (users.length === 0) {
-        //   await compare(password, DUMMY_PASSWORD);
-        //   return null;
-        // }
-
-        // const [user] = users;
-
-        // if (!user.password) {
-        //   await compare(password, DUMMY_PASSWORD);
-        //   return null;
-        // }
-
-        // const passwordsMatch = await compare(password, user.password);
-
-        // if (!passwordsMatch) return null;
-
-        // return { ...user, type: 'regular' };
       },
     }),
-    // Credentials({
-    //   id: 'guest',
-    //   credentials: {},
-    //   async authorize() {
-    //     const [guestUser] = await createGuestUser();
-    //     return { ...guestUser, type: 'guest' };
-    //   },
-    // }),
   ],
   callbacks: {
     async jwt({ token, user }) {
