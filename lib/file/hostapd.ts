@@ -1,6 +1,6 @@
-import fs from 'fs/promises';
-import { execFile } from 'child_process';
-import { promisify } from 'util';
+import fs from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
 
@@ -29,7 +29,7 @@ export async function updateHostapdFile(
   }>
 ) {
   const filePath = '/tmp/hostapd.conf';
-  let content = await fs.readFile(filePath, 'utf-8');
+  const content = await fs.readFile(filePath, 'utf-8');
 
   // const content = await fs.readFile(HOSTAPD_CONF_PATH, 'utf-8');
   const lines = content.split('\n');
@@ -54,7 +54,9 @@ export async function updateHostapdFile(
   ];
 
   const foundFlags: Record<string, boolean> = {};
-  fieldOrder.forEach((key) => (foundFlags[key] = false));
+  fieldOrder.forEach((key) => {
+    foundFlags[key] = false;
+  });
 
   const updatedLines = lines.map((line) => {
     const trimmed = line.trim();

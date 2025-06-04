@@ -13,7 +13,6 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { PowerBy } from '@/components/power-by';
 import { signOut } from 'next-auth/react';
 import { Separator } from './ui/separator';

@@ -8,7 +8,6 @@ import { fetchWithErrorHandlers, generateUUID } from '@/lib/utils';
 import { MultimodalInput } from './multimodal-input';
 import { Messages } from './messages';
 import { toast } from './toast';
-import type { Session } from 'next-auth';
 import { useSearchParams } from 'next/navigation';
 import { useAutoResume } from '@/hooks/use-auto-resume';
 import { ChatSDKError } from '@/lib/errors';

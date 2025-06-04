@@ -6,7 +6,7 @@ import { Label } from './ui/label';
 export function AuthForm({
   action,
   children,
-  defaultUsername: defaultUsername = '',
+  defaultUsername = '',
 }: {
   action: NonNullable<
     string | ((formData: FormData) => void | Promise<void>) | undefined

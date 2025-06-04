@@ -18,10 +18,11 @@ export default async function Layout({
   return (
     <>
       <Script
-        src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"
-        strategy="beforeInteractive"
+        src='https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js'
+        strategy='beforeInteractive'
       />
-      <SidebarProvider defaultOpen={!isCollapsed}>
+      {/* <SidebarProvider defaultOpen={!isCollapsed}> */}
+      <SidebarProvider defaultOpen={true}>
         <AppSidebar user={session?.user} />
         <SidebarInset>{children}</SidebarInset>
       </SidebarProvider>

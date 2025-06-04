@@ -3,7 +3,7 @@
 import type { UIMessage } from 'ai';
 import cx from 'classnames';
 import type React from 'react';
-import { useRef, useEffect, useState, useCallback, memo } from 'react';
+import { useRef, useEffect, useCallback, memo } from 'react';
 import { toast } from 'sonner';
 import { useLocalStorage, useWindowSize } from 'usehooks-ts';
 
