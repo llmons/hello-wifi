@@ -6,7 +6,6 @@ import {
   SparklesIcon,
   UndoIcon,
 } from '@/components/icons';
-import { SpreadsheetEditor } from '@/components/sheet-editor';
 import { parse, unparse } from 'papaparse';
 import { toast } from 'sonner';
 
@@ -34,13 +33,14 @@ export const sheetArtifact = new Artifact<'sheet', Metadata>({
     status,
   }) => {
     return (
-      <SpreadsheetEditor
-        content={content}
-        currentVersionIndex={currentVersionIndex}
-        isCurrentVersion={isCurrentVersion}
-        saveContent={onSaveContent}
-        status={status}
-      />
+      // <SpreadsheetEditor
+      //   content={content}
+      //   currentVersionIndex={currentVersionIndex}
+      //   isCurrentVersion={isCurrentVersion}
+      //   saveContent={onSaveContent}
+      //   status={status}
+      // />
+      <></>
     );
   },
   actions: [
@@ -79,7 +79,7 @@ export const sheetArtifact = new Artifact<'sheet', Metadata>({
         const parsed = parse<string[]>(content, { skipEmptyLines: true });
 
         const nonEmptyRows = parsed.data.filter((row) =>
-          row.some((cell) => cell.trim() !== ''),
+          row.some((cell) => cell.trim() !== '')
         );
 
         const cleanedCsv = unparse(nonEmptyRows);

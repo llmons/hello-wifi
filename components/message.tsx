@@ -9,7 +9,7 @@ import { Markdown } from './markdown';
 import { PreviewAttachment } from './preview-attachment';
 import equal from 'fast-deep-equal';
 import { cn, sanitizeText } from '@/lib/utils';
-import { MessageReasoning } from './message-reasoning';
+// import { MessageReasoning } from './message-reasoning';
 import type { UseChatHelpers } from '@ai-sdk/react';
 import { Qwen } from '@lobehub/icons';
 
@@ -81,15 +81,15 @@ const PurePreviewMessage = ({
               const { type } = part;
               const key = `message-${message.id}-part-${index}`;
 
-              if (type === 'reasoning') {
-                return (
-                  <MessageReasoning
-                    key={key}
-                    isLoading={isLoading}
-                    reasoning={part.reasoning}
-                  />
-                );
-              }
+              // if (type === 'reasoning') {
+              //   return (
+              //     <MessageReasoning
+              //       key={key}
+              //       isLoading={isLoading}
+              //       reasoning={part.reasoning}
+              //     />
+              //   );
+              // }
 
               if (type === 'text') {
                 if (mode === 'view') {

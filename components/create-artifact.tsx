@@ -34,7 +34,7 @@ export type ArtifactToolbarItem = {
 
 interface ArtifactContent<M = any> {
   title: string;
-  content: string;
+  content: string | null;
   mode: 'edit' | 'diff';
   isCurrentVersion: boolean;
   currentVersionIndex: number;
@@ -56,7 +56,7 @@ interface InitializeParameters<M = any> {
 type ArtifactConfig<T extends string, M = any> = {
   kind: T;
   description: string;
-  content: ComponentType<ArtifactContent<M>>;
+  content: ComponentType<ArtifactContent<M>> | null;
   actions: Array<ArtifactAction<M>>;
   toolbar: ArtifactToolbarItem[];
   initialize?: (parameters: InitializeParameters<M>) => void;
@@ -70,7 +70,8 @@ type ArtifactConfig<T extends string, M = any> = {
 export class Artifact<T extends string, M = any> {
   readonly kind: T;
   readonly description: string;
-  readonly content: ComponentType<ArtifactContent<M>>;
+  // readonly content: ComponentType<ArtifactContent<M>>;
+  readonly content: ComponentType<ArtifactContent<M>> | null;
   readonly actions: Array<ArtifactAction<M>>;
   readonly toolbar: ArtifactToolbarItem[];
   readonly initialize?: (parameters: InitializeParameters) => void;
@@ -83,7 +84,8 @@ export class Artifact<T extends string, M = any> {
   constructor(config: ArtifactConfig<T, M>) {
     this.kind = config.kind;
     this.description = config.description;
-    this.content = config.content;
+    // this.content = config.content;
+    this.content = null;
     this.actions = config.actions || [];
     this.toolbar = config.toolbar || [];
     this.initialize = config.initialize || (async () => ({}));

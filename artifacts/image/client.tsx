@@ -1,6 +1,6 @@
 import { Artifact } from '@/components/create-artifact';
 import { CopyIcon, RedoIcon, UndoIcon } from '@/components/icons';
-import { ImageEditor } from '@/components/image-editor';
+// import { ImageEditor } from '@/components/image-editor';
 import { toast } from 'sonner';
 
 export const imageArtifact = new Artifact({
@@ -16,7 +16,8 @@ export const imageArtifact = new Artifact({
       }));
     }
   },
-  content: ImageEditor,
+  // content: ImageEditor,
+  content: null,
   actions: [
     {
       icon: <UndoIcon size={18} />,

@@ -92,7 +92,7 @@ function PureArtifact({
     artifact.documentId !== 'init' && artifact.status !== 'streaming'
       ? `/api/document?id=${artifact.documentId}`
       : null,
-    fetcher,
+    fetcher
   );
 
   const [mode, setMode] = useState<'edit' | 'diff'>('edit');
@@ -161,15 +161,15 @@ function PureArtifact({
           }
           return currentDocuments;
         },
-        { revalidate: false },
+        { revalidate: false }
       );
     },
-    [artifact, mutate],
+    [artifact, mutate]
   );
 
   const debouncedHandleContentChange = useDebounceCallback(
     handleContentChange,
-    2000,
+    2000
   );
 
   const saveContent = useCallback(
@@ -184,7 +184,7 @@ function PureArtifact({
         }
       }
     },
-    [document, debouncedHandleContentChange, handleContentChange],
+    [document, debouncedHandleContentChange, handleContentChange]
   );
 
   function getDocumentContentById(index: number) {
@@ -233,7 +233,7 @@ function PureArtifact({
   const isMobile = windowWidth ? windowWidth < 768 : false;
 
   const artifactDefinition = artifactDefinitions.find(
-    (definition) => definition.kind === artifact.kind,
+    (definition) => definition.kind === artifact.kind
   );
 
   if (!artifactDefinition) {
@@ -255,15 +255,14 @@ function PureArtifact({
     <AnimatePresence>
       {artifact.isVisible && (
         <motion.div
-          data-testid="artifact"
-          className="flex flex-row h-dvh w-dvw fixed top-0 left-0 z-50 bg-transparent"
+          data-testid='artifact'
+          className='flex flex-row h-dvh w-dvw fixed top-0 left-0 z-50 bg-transparent'
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { delay: 0.4 } }}
-        >
+          exit={{ opacity: 0, transition: { delay: 0.4 } }}>
           {!isMobile && (
             <motion.div
-              className="fixed bg-background h-dvh"
+              className='fixed bg-background h-dvh'
               initial={{
                 width: isSidebarOpen ? windowWidth - 256 : windowWidth,
                 right: 0,
@@ -278,7 +277,7 @@ function PureArtifact({
 
           {!isMobile && (
             <motion.div
-              className="relative w-[400px] bg-muted dark:bg-background h-dvh shrink-0"
+              className='relative w-[400px] bg-muted dark:bg-background h-dvh shrink-0'
               initial={{ opacity: 0, x: 10, scale: 1 }}
               animate={{
                 opacity: 1,
@@ -296,12 +295,11 @@ function PureArtifact({
                 x: 0,
                 scale: 1,
                 transition: { duration: 0 },
-              }}
-            >
+              }}>
               <AnimatePresence>
                 {!isCurrentVersion && (
                   <motion.div
-                    className="left-0 absolute h-dvh w-[400px] top-0 bg-zinc-900/50 z-50"
+                    className='left-0 absolute h-dvh w-[400px] top-0 bg-zinc-900/50 z-50'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -309,7 +307,7 @@ function PureArtifact({
                 )}
               </AnimatePresence>
 
-              <div className="flex flex-col h-full justify-between items-center">
+              <div className='flex flex-col h-full justify-between items-center'>
                 <ArtifactMessages
                   chatId={chatId}
                   status={status}
@@ -321,7 +319,7 @@ function PureArtifact({
                   artifactStatus={artifact.status}
                 />
 
-                <form className="flex flex-row gap-2 relative items-end w-full px-4 pb-4">
+                <form className='flex flex-row gap-2 relative items-end w-full px-4 pb-4'>
                   <MultimodalInput
                     chatId={chatId}
                     input={input}
@@ -333,7 +331,7 @@ function PureArtifact({
                     setAttachments={setAttachments}
                     messages={messages}
                     append={append}
-                    className="bg-background dark:bg-muted"
+                    className='bg-background dark:bg-muted'
                     setMessages={setMessages}
                   />
                 </form>
@@ -342,7 +340,7 @@ function PureArtifact({
           )}
 
           <motion.div
-            className="fixed dark:bg-muted bg-background h-dvh flex flex-col overflow-y-scroll md:border-l dark:border-zinc-700 border-zinc-200"
+            className='fixed dark:bg-muted bg-background h-dvh flex flex-col overflow-y-scroll md:border-l dark:border-zinc-700 border-zinc-200'
             initial={
               isMobile
                 ? {
@@ -406,31 +404,30 @@ function PureArtifact({
                 stiffness: 600,
                 damping: 30,
               },
-            }}
-          >
-            <div className="p-2 flex flex-row justify-between items-start">
-              <div className="flex flex-row gap-4 items-start">
+            }}>
+            <div className='p-2 flex flex-row justify-between items-start'>
+              <div className='flex flex-row gap-4 items-start'>
                 <ArtifactCloseButton />
 
-                <div className="flex flex-col">
-                  <div className="font-medium">{artifact.title}</div>
+                <div className='flex flex-col'>
+                  <div className='font-medium'>{artifact.title}</div>
 
                   {isContentDirty ? (
-                    <div className="text-sm text-muted-foreground">
+                    <div className='text-sm text-muted-foreground'>
                       Saving changes...
                     </div>
                   ) : document ? (
-                    <div className="text-sm text-muted-foreground">
+                    <div className='text-sm text-muted-foreground'>
                       {`Updated ${formatDistance(
                         new Date(document.createdAt),
                         new Date(),
                         {
                           addSuffix: true,
-                        },
+                        }
                       )}`}
                     </div>
                   ) : (
-                    <div className="w-32 h-3 mt-2 bg-muted-foreground/20 rounded-md animate-pulse" />
+                    <div className='w-32 h-3 mt-2 bg-muted-foreground/20 rounded-md animate-pulse' />
                   )}
                 </div>
               </div>
@@ -446,8 +443,8 @@ function PureArtifact({
               />
             </div>
 
-            <div className="dark:bg-muted bg-background h-full overflow-y-scroll !max-w-full items-center">
-              <artifactDefinition.content
+            <div className='dark:bg-muted bg-background h-full overflow-y-scroll !max-w-full items-center'>
+              {/* <artifactDefinition.content
                 title={artifact.title}
                 content={
                   isCurrentVersion
@@ -465,7 +462,7 @@ function PureArtifact({
                 isLoading={isDocumentsFetching && !artifact.content}
                 metadata={metadata}
                 setMetadata={setMetadata}
-              />
+              /> */}
 
               <AnimatePresence>
                 {isCurrentVersion && (

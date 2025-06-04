@@ -1,7 +1,5 @@
 import { Artifact } from '@/components/create-artifact';
 import { DiffView } from '@/components/diffview';
-import { DocumentSkeleton } from '@/components/document-skeleton';
-import { Editor } from '@/components/text-editor';
 import {
   ClockRewind,
   CopyIcon,
@@ -68,7 +66,7 @@ export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
     metadata,
   }) => {
     if (isLoading) {
-      return <DocumentSkeleton artifactKind="text" />;
+      // return <DocumentSkeleton artifactKind="text" />;
     }
 
     if (mode === 'diff') {
@@ -80,20 +78,20 @@ export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
 
     return (
       <>
-        <div className="flex flex-row py-8 md:p-20 px-4">
-          <Editor
+        <div className='flex flex-row py-8 md:p-20 px-4'>
+          {/* <Editor
             content={content}
             suggestions={metadata ? metadata.suggestions : []}
             isCurrentVersion={isCurrentVersion}
             currentVersionIndex={currentVersionIndex}
             status={status}
             onSaveContent={onSaveContent}
-          />
+          /> */}
 
           {metadata &&
           metadata.suggestions &&
           metadata.suggestions.length > 0 ? (
-            <div className="md:hidden h-dvh w-12 shrink-0" />
+            <div className='md:hidden h-dvh w-12 shrink-0' />
           ) : null}
         </div>
       </>
