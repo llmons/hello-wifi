@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from '@/components/toast';
@@ -57,22 +56,9 @@ export default function Page() {
           <h3 className='text-xl font-semibold dark:text-zinc-50'>
             Hello WiFi
           </h3>
-          {/* <p className='text-sm text-gray-500 dark:text-zinc-400'>
-            Use your email and password to sign in
-          </p> */}
         </div>
         <AuthForm action={handleSubmit} defaultUsername={username}>
           <SubmitButton isSuccessful={isSuccessful}>登录</SubmitButton>
-          {/* <p className="text-center text-sm text-gray-600 mt-4 dark:text-zinc-400">
-            {"Don't have an account? "}
-            <Link
-              href="/register"
-              className="font-semibold text-gray-800 hover:underline dark:text-zinc-200"
-            >
-              Sign up
-            </Link>
-            {' for free.'}
-          </p> */}
         </AuthForm>
       </div>
     </div>

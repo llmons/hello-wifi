@@ -36,27 +36,10 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                 Hello WiFi
               </span>
             </Link>
-            {/*<Tooltip>*/}
-            {/*  <TooltipTrigger asChild>*/}
-            {/*    <Button*/}
-            {/*      variant='ghost'*/}
-            {/*      type='button'*/}
-            {/*      className='p-2 h-fit'*/}
-            {/*      onClick={() => {*/}
-            {/*        setOpenMobile(false);*/}
-            {/*        router.push('/');*/}
-            {/*        router.refresh();*/}
-            {/*      }}>*/}
-            {/*      <PlusIcon />*/}
-            {/*    </Button>*/}
-            {/*  </TooltipTrigger>*/}
-            {/*  <TooltipContent align='end'>New Chat</TooltipContent>*/}
-            {/*</Tooltip>*/}
           </div>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>{/* <SidebarHistory user={user} /> */}</SidebarContent>
-      {/* <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter> */}
+      <SidebarContent></SidebarContent>
       <SidebarFooter>
         <PowerBy />
         <Separator className='my-2' />

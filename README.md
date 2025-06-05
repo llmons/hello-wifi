@@ -1,7 +1,7 @@
 # Hello WiFi
 
 <div align="center">
-  <p>一个基于 AI 的 WiFi 配置管理系统</p>
+  <p>一个基于 LLM 的 WiFi 配置管理系统</p>
 </div>
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.0-000000?style=flat-square&logo=next.js)](https://nextjs.org/)
